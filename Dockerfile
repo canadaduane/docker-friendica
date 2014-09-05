@@ -13,7 +13,7 @@ ADD setup_db.sh /setup_db.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 
-VOLUMES ["/var/lib/mysql", "/logs"]
+VOLUME ["/var/lib/mysql", "/logs"]
 
 ENV DATABASE friendica
 
