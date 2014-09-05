@@ -8,7 +8,7 @@ sed -ri -e "s/^upload_max_filesize.*/upload_max_filesize = ${PHP_UPLOAD_MAX_FILE
 if [[ ! -d $VOLUME_HOME/mysql ]]; then
     echo "=> An empty or uninitialized MySQL volume is detected in $VOLUME_HOME"
     echo "=> Installing MySQL ..."
-    mysql_install_db > /dev/null 2>&1
+    mysql_install_db
     echo "CREATE DATABASE $INSTANCE" | mysql -uroot
     echo "=> Done!"  
 else
