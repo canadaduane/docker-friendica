@@ -18,25 +18,25 @@ else
     echo "=> Using an existing volume of MySQL"
 fi
 
-if [ ! -f /.mysql_admin_created ]; then
-    echo "=> Starting MySQL Server"
-    /usr/bin/mysqld_safe > /dev/null 2>&1 &
+echo "=> Starting MySQL Server"
+/usr/bin/mysqld_safe >/dev/null 2>&1 &
+
+RET=1
+while [[ RET -ne 0 ]]; do
+    echo "=> Waiting for confirmation of MySQL service startup"
     sleep 5
-    echo "   Started with PID $!"
+    mysql -uroot -e "status" > /dev/null 2>&1
+    RET=$?
+done
 
-    echo "=> Create mysql admin user"
-    /create_mysql_admin_user.sh
-
+if [ ! -f /.mysql_database_created ]; then
     echo "=> Create database $1"
     echo "CREATE DATABASE $1" | mysql -uroot
 
     echo "=> Importing SQL file"
     mysql -uroot "$1" < "$2"
 
-    echo "=> Stopping MySQL Server"
-    mysqladmin -uroot shutdown
-
     echo "=> Done!"
-    touch /.mysql_admin_created
+    touch /.mysql_database_created
 fi
 
