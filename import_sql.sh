@@ -10,6 +10,9 @@ echo "=> Starting MySQL Server"
 sleep 5
 echo "   Started with PID $!"
 
+echo "=> Create database $1"
+echo "CREATE DATABASE $1" | mysql -uroot
+
 echo "=> Importing SQL file"
 mysql -uroot "$1" < "$2"
 

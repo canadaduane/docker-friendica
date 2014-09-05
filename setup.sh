@@ -9,7 +9,6 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
     echo "=> An empty or uninitialized MySQL volume is detected in $VOLUME_HOME"
     echo "=> Installing MySQL ..."
     mysql_install_db
-    echo "CREATE DATABASE $INSTANCE" | mysql -uroot
     echo "=> Done!"  
 else
     echo "=> Using an existing volume of MySQL"
