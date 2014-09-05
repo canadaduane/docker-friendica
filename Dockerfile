@@ -14,8 +14,9 @@ ADD setup.sh /setup.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 
+VOLUMES ["/var/lib/mysql", "/logs"]
 
-RUN /setup.sh friendica
+ENV DATABASE friendica
 
 EXPOSE 80 3306
 CMD ["/run.sh"]
