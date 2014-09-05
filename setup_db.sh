@@ -18,25 +18,27 @@ else
     echo "=> Using an existing volume of MySQL"
 fi
 
-echo "=> Starting MySQL Server"
-/usr/bin/mysqld_safe >/dev/null 2>&1 &
-
-RET=1
-while [[ RET -ne 0 ]]; do
-    echo "=> Waiting for confirmation of MySQL service startup"
-    sleep 5
-    mysql -uroot -e "status" > /dev/null 2>&1
-    RET=$?
-done
-
 if [ ! -f /.mysql_database_created ]; then
+    echo "=> Starting MySQL Server"
+    /usr/bin/mysqld_safe >/dev/null 2>&1 &
+
+    RET=1
+    while [[ RET -ne 0 ]]; do
+        echo "=> Waiting for confirmation of MySQL service startup"
+        sleep 5
+        mysql -uroot -e "status" > /dev/null 2>&1
+        RET=$?
+    done
+
     echo "=> Create database $1"
     echo "CREATE DATABASE $1" | mysql -uroot
 
     echo "=> Importing SQL file"
     mysql -uroot "$1" < "$2"
 
-    echo "=> Done!"
+    echo "=> Closing MySQL Server (setup)"
+    mysqladmin -uroot shutdown
+
     touch /.mysql_database_created
 fi
 
