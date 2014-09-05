@@ -1,5 +1,6 @@
 #!/bin/bash
 
+INSTANCE=${1:-friendica}
 VOLUME_HOME="/var/lib/mysql"
 
 sed -ri -e "s/^upload_max_filesize.*/upload_max_filesize = ${PHP_UPLOAD_MAX_FILESIZE}/" \
@@ -8,16 +9,18 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
     echo "=> An empty or uninitialized MySQL volume is detected in $VOLUME_HOME"
     echo "=> Installing MySQL ..."
     mysql_install_db > /dev/null 2>&1
+    echo "CREATE DATABASE $INSTANCE" | mysql -uroot
     echo "=> Done!"  
 else
     echo "=> Using an existing volume of MySQL"
 fi
 
-/import_sql.sh friendica /app/database.sql
+/import_sql.sh $INSTANCE /app/database.sql
 
 touch /app/php.log
 touch /app/db.log
-touch /app/friendica.log
+touch /app/$INSTANCE.log
+
 chmod 666 /app/*.log
 
 tee /app/.htconfig.php <<EOF
@@ -27,7 +30,7 @@ tee /app/.htconfig.php <<EOF
 \$db_host = 'localhost';
 \$db_user = 'root';
 \$db_pass = '';
-\$db_data = 'friendica';
+\$db_data = '$INSTANCE';
 
 \$a->path = '';
 
