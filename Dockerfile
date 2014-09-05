@@ -9,8 +9,7 @@ RUN rm -fr /app && git clone https://github.com/friendica/friendica.git /app
 RUN chmod 777 /app/view/smarty3
 RUN git clone https://github.com/friendica/friendica-addons.git /app/addon
 
-ADD import_sql.sh /import_sql.sh
-ADD setup.sh /setup.sh
+ADD setup_db.sh /setup_db.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 
