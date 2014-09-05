@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/create_db.sh friendica
+# /create_db.sh friendica
 /import_sql.sh friendica /app/database.sql
 
 
