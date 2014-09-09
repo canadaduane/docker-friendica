@@ -3,7 +3,7 @@ MAINTAINER Fabrix Xm <fabrix.xm@gmail.com>
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install php5-gd php5-curl && DEBIAN_FRONTEND=noninteractive apt-get -y clean
 
-RUN a2enmod rewrite && sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/sites-enabled/*
+RUN a2enmod rewrite && sed -i "s/AllowOverride FileInfo/AllowOverride All/g" /etc/apache2/sites-enabled/*
 
 RUN rm -fr /app && git clone https://github.com/friendica/friendica.git /app
 RUN chmod 777 /app/view/smarty3

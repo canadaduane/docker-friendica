@@ -11,7 +11,7 @@ touch /logs/friendica.log
 chmod 666 /logs/*.log
 
 if [ ! -f /app/.htconfig.php ]; then
-echo <<EOF >/app/.htconfig.php
+cat <<EOF >/app/.htconfig.php
 <?php
 
 \$db_host = 'localhost';
